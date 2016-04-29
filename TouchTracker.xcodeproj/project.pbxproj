@@ -12,6 +12,8 @@
 		DB17372B1CD2EFD80088F29F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB1737291CD2EFD80088F29F /* Main.storyboard */; };
 		DB17372D1CD2EFD80088F29F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB17372C1CD2EFD80088F29F /* Assets.xcassets */; };
 		DB1737301CD2EFD80088F29F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB17372E1CD2EFD80088F29F /* LaunchScreen.storyboard */; };
+		DB1737381CD2F03A0088F29F /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB1737371CD2F03A0088F29F /* Line.swift */; };
+		DB17373A1CD2F0FA0088F29F /* DrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB1737391CD2F0FA0088F29F /* DrawView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,8 @@
 		DB17372C1CD2EFD80088F29F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DB17372F1CD2EFD80088F29F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DB1737311CD2EFD80088F29F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DB1737371CD2F03A0088F29F /* Line.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Line.swift; path = ../Line.swift; sourceTree = "<group>"; };
+		DB1737391CD2F0FA0088F29F /* DrawView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +60,8 @@
 			children = (
 				DB1737251CD2EFD80088F29F /* AppDelegate.swift */,
 				DB1737271CD2EFD80088F29F /* ViewController.swift */,
+				DB1737371CD2F03A0088F29F /* Line.swift */,
+				DB1737391CD2F0FA0088F29F /* DrawView.swift */,
 				DB1737291CD2EFD80088F29F /* Main.storyboard */,
 				DB17372C1CD2EFD80088F29F /* Assets.xcassets */,
 				DB17372E1CD2EFD80088F29F /* LaunchScreen.storyboard */,
@@ -96,7 +102,6 @@
 				TargetAttributes = {
 					DB1737211CD2EFD80088F29F = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = G46PAQ7CQ7;
 					};
 				};
 			};
@@ -136,7 +141,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB1737381CD2F03A0088F29F /* Line.swift in Sources */,
 				DB1737281CD2EFD80088F29F /* ViewController.swift in Sources */,
+				DB17373A1CD2F0FA0088F29F /* DrawView.swift in Sources */,
 				DB1737261CD2EFD80088F29F /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -250,6 +257,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = TouchTracker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.TouchTracker;
@@ -261,6 +269,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = TouchTracker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.TouchTracker;
