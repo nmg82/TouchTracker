@@ -107,10 +107,10 @@ class DrawView: UIView {
   }
   
   func moveLine(gestureRecognizer: UIPanGestureRecognizer) {
-    guard let index = selectedLineIndex else { return }
+    guard let index = selectedLineIndex where !UIMenuController.sharedMenuController().menuVisible else { return }
     
     if gestureRecognizer.state == .Changed {
-      //how far has teh pan moved?
+      //how far has the pan moved?
       let translation = gestureRecognizer.translationInView(self)
       
       //add the translation to the current beginning and end point of the line
