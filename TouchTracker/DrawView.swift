@@ -10,15 +10,14 @@ class DrawView: UIView {
       }
     }
   }
-  var moveRecognizer: UIPanGestureRecognizer!
   
-  @IBInspectable var finishedLineColor: UIColor = UIColor.blackColor() {
+  @IBInspectable var finishedLineColor: UIColor = .blackColor() {
     didSet {
       setNeedsDisplay()
     }
   }
   
-  @IBInspectable var currentLineColor: UIColor = UIColor.redColor() {
+  @IBInspectable var currentLineColor: UIColor = .redColor() {
     didSet {
       setNeedsDisplay()
     }
@@ -33,23 +32,28 @@ class DrawView: UIView {
   required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
   
-    let doubleTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(DrawView.doubleTap))
+    let doubleTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(doubleTap))
     doubleTapRecognizer.numberOfTapsRequired = 2
     doubleTapRecognizer.delaysTouchesBegan = true
     addGestureRecognizer(doubleTapRecognizer)
     
-    let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(DrawView.tap))
+    let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tap))
     tapRecognizer.delaysTouchesBegan = true
     tapRecognizer.requireGestureRecognizerToFail(doubleTapRecognizer)
     addGestureRecognizer(tapRecognizer)
     
-    let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(DrawView.longPress))
+    let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPress))
     addGestureRecognizer(longPressRecognizer)
     
-    moveRecognizer = UIPanGestureRecognizer(target: self, action: #selector(DrawView.moveLine))
+    let moveRecognizer = UIPanGestureRecognizer(target: self, action: #selector(moveLine))
     moveRecognizer.cancelsTouchesInView = false
     moveRecognizer.delegate = self
     addGestureRecognizer(moveRecognizer)
+    
+    let swipeRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(showColors))
+    swipeRecognizer.numberOfTouchesRequired = 3
+    swipeRecognizer.direction = .Up
+    addGestureRecognizer(swipeRecognizer)
   }
   
   func doubleTap(gestureRecognizer: UIGestureRecognizer) {
@@ -71,7 +75,7 @@ class DrawView: UIView {
     becomeFirstResponder()
     
     let menu = UIMenuController.sharedMenuController()
-    let deleteItem = UIMenuItem(title: "Delete", action: #selector(DrawView.deleteLine))
+    let deleteItem = UIMenuItem(title: "Delete", action: #selector(deleteLine))
     menu.menuItems = [deleteItem]
     menu.setTargetRect(CGRect(x: point.x, y: point.y, width: 2, height: 2), inView: self)
     menu.setMenuVisible(true, animated: true)
@@ -124,14 +128,46 @@ class DrawView: UIView {
     }
   }
   
+  func showColors(gestureRecognizer: UIGestureRecognizer) {
+    becomeFirstResponder()
+    
+    let menu = UIMenuController.sharedMenuController()
+    let red = UIMenuItem(title: "Red", action: #selector(changeFinishedColorToRed))
+    let green = UIMenuItem(title: "Green", action: #selector(changeFinishedColorToGreen))
+    let blue = UIMenuItem(title: "Blue", action: #selector(changeFinishedColorToBlue))
+    let yellow = UIMenuItem(title: "Yellow", action: #selector(changeFinishedColorToYellow))
+    
+    menu.menuItems = [red, green, blue, yellow]
+    
+    let point = gestureRecognizer.locationInView(self)
+    menu.setTargetRect(CGRect(x: point.x, y: point.y, width: 2, height: 2), inView: self)
+    menu.setMenuVisible(true, animated: true)
+  }
+  
+  func changeFinishedColorToBlue() {
+    finishedLineColor = .blueColor()
+  }
+  
+  func changeFinishedColorToGreen() {
+    finishedLineColor = .greenColor()
+  }
+  
+  func changeFinishedColorToYellow() {
+    finishedLineColor = .yellowColor()
+  }
+
+  func changeFinishedColorToRed(sender: UIMenuController) {
+    finishedLineColor = .redColor()
+  }
+  
   override func drawRect(rect: CGRect) {
-    finishedLineColor.setStroke()
     for line in finishedLines {
+      line.color.setStroke()
       strokeLine(line)
     }
     
-    currentLineColor.setStroke()
     for (_, line) in currentLines {
+      line.color.setStroke()
       strokeLine(line)
     }
     
@@ -176,7 +212,7 @@ class DrawView: UIView {
   override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
     for touch in touches {
       let location = touch.locationInView(self)
-      let newLine = Line(begin: location, end: location)
+      let newLine = Line(begin: location, end: location, color: currentLineColor)
       let key = NSValue(nonretainedObject: touch)
       currentLines[key] = newLine
     }
@@ -198,6 +234,7 @@ class DrawView: UIView {
       let key = NSValue(nonretainedObject: touch)
       if var line = currentLines[key] {
         line.end = touch.locationInView(self)
+        line.color = finishedLineColor
         finishedLines.append(line)
         currentLines.removeValueForKey(key)
       }
